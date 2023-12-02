@@ -4,10 +4,10 @@ fun main() {
         return input.map { line ->
             val (gameId, rounds) = line.split(":")
             val roundsList = rounds.split(";").map { round ->
-                round.split(",").map { color ->
+                round.split(",").associate { color ->
                     val (count, color) = color.trim().split(" ")
                     color to count.toInt()
-                }.toMap()
+                }
             }
             gameId.trim().split(" ").last().toInt() to roundsList
         }
@@ -38,7 +38,6 @@ fun main() {
         }
     }
 
-
     // test if implementation meets criteria from the description, like:
     val testInput = parseInput(readInput("Day02_test"))
     check(part1(testInput) == 8)
@@ -49,8 +48,4 @@ fun main() {
         println(part1(input))
         println(part2(input))
     }
-
-
 }
-
-                                                                                                                                
