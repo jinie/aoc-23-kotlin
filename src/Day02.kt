@@ -27,7 +27,7 @@ fun main() {
             }
         }.sumOf { (gameId, _) -> gameId }
     }
-    
+
     fun part2(input: List<Pair<Int, List<Map<String, Int>>>>): Int {
         return input.sumOf { (_, rounds) ->
             val maxPerColor = rounds.flatMap { round ->
