@@ -61,7 +61,7 @@ fun neighbours(input: List<List<Int>>, rowIdx: Int, colIdx: Int): List<Pair<Int,
 /**
  * Find all neighbours in a grid
  */
-private fun allNeighbours(values: List<List<Int>>, y: Int, x: Int): List<Pair<Int, Int>> {
+fun allNeighbours(values: List<List<Int>>, y: Int, x: Int): List<Pair<Int, Int>> {
     return (-1..1).flatMap { dy -> (-1..1).map { dx -> dy to dx } }
         .filterNot { (dy, dx) -> dy == 0 && dx == 0 }
         .map { (dy, dx) -> y + dy to x + dx }
