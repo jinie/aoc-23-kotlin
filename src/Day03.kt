@@ -53,11 +53,7 @@ fun main() {
             .sumOf { number -> number.value as Int }
 
     }
-
-    /**
-     * Find all numbers that are separated by a * symbol
-     * Multiply them and add them to the sum
-     */
+    
     fun part2(input: List<Number>): Int {
         return input.filter { it.isSymbol && it.value == '*' }.sumOf {
             val neighbours = it.neighbours()
