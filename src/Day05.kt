@@ -9,10 +9,10 @@ fun main() {
     }
 
     // test if implementation meets criteria from the description, like:
-    val testInput = readInput("Day01_test")
+    val testInput = readInput("Day05_test")
     check(part1(testInput) == 142)
     measureTimeMillisPrint {
-        val input = readInput("Day01")
+        val input = readInput("Day05")
 
         println(part1(input))
         println(part2(input))
