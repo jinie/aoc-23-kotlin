@@ -1,3 +1,5 @@
+import kotlin.math.pow
+
 fun main() {
 
     fun parseInput(input: List<String>): Map<Int,Pair<Set<Int>, Set<Int>>>{
@@ -12,17 +14,9 @@ fun main() {
     }
 
     fun part1(input: Map<Int,Pair<Set<Int>, Set<Int>>>): Int {
-        var ret = 0
-        input.forEach { (_, data) ->
-            val common = data.first.intersect(data.second)
-            var tret = 1
-            if(common.isNotEmpty()) {
-                for(i in 1 until common.size)
-                    tret *= 2
-                ret += tret
-            }
-        }
-        return ret
+        return input.map { (_, data) ->
+            data.first.intersect(data.second).run { if(this.isNotEmpty()) 2.0.pow(this.size -1).toInt() else 0 }
+        }.sum()
     }
 
     fun part2(input: Map<Int,Pair<Set<Int>, Set<Int>>>): Int {
