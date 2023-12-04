@@ -4,7 +4,7 @@ fun main() {
 
     fun parseInput(input: List<String>): Map<Int,Int>{
         return input.map {line ->
-            var (card, numberSource) = line.split(":")
+            var (card, numberSource) = line.split(":").also { it.first().removePrefix("Card ").strip()}
             card = card.removePrefix("Card ").strip()
             val (winners,stakes) = numberSource.split("|").map { it.split(" ").mapNotNull { if(it.isNotEmpty()) it.strip().toInt() else null }.toSet() }
             card.toInt() to winners.intersect(stakes).size

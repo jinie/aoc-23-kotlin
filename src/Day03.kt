@@ -53,7 +53,7 @@ fun main() {
             .sumOf { number -> number.value as Int }
 
     }
-    
+
     fun part2(input: List<Number>): Int {
         return input.filter { it.isSymbol && it.value == '*' }.sumOf {
             val neighbours = it.neighbours()
