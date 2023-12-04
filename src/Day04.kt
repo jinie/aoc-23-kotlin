@@ -2,28 +2,27 @@ import kotlin.math.pow
 
 fun main() {
 
-    fun parseInput(input: List<String>): Map<Int,Pair<Set<Int>, Set<Int>>>{
+    fun parseInput(input: List<String>): Map<Int,Int>{
         return input.map {line ->
             var (card, numberSource) = line.split(":")
             card = card.removePrefix("Card ").strip()
             val (winners,stakes) = numberSource.split("|").map { it.split(" ").mapNotNull { if(it.isNotEmpty()) it.strip().toInt() else null }.toSet() }
-            card.toInt() to Pair(winners, stakes)
+            card.toInt() to winners.intersect(stakes).size
         }.toMap()
     }
 
-    fun part1(input: Map<Int,Pair<Set<Int>, Set<Int>>>): Int {
-        return input.map { (_, data) ->
-            data.first.intersect(data.second).run { if(this.isNotEmpty()) 2.0.pow(this.size -1).toInt() else 0 }
-        }.sum()
+    fun part1(input: Map<Int,Int>): Int {
+        return input.values.sumOf { data ->
+            2.0.pow(data -1).toInt()
+        }
     }
 
-    fun part2(input: Map<Int,Pair<Set<Int>, Set<Int>>>): Int {
+    fun part2(input: Map<Int,Int>): Int {
         val cardCt = input.keys.associateWith { 1 }.toMutableMap()
         input.forEach{ (cardNo, data) ->
-            val ct = data.first.intersect(data.second).size+cardNo
+            val ct = if(data+cardNo > input.keys.max()) input.keys.max() else data+cardNo
             (cardNo+1 .. ct).forEach {
-                if (cardCt.keys.contains(it))
-                    cardCt[it] = cardCt[it]!! + (1 * cardCt[cardNo]!!)
+                cardCt[it] = cardCt.getOrDefault(it,0) + (1 * cardCt[cardNo]!!)
             }
         }
         return cardCt.values.sum()
