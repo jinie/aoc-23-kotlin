@@ -3,14 +3,12 @@ import kotlin.math.pow
 fun main() {
 
     fun parseInput(input: List<String>): Map<Int,Pair<Set<Int>, Set<Int>>>{
-        val ret = mutableMapOf<Int,Pair<Set<Int>, Set<Int>>>()
-        input.forEach {line ->
+        return input.map {line ->
             var (card, numberSource) = line.split(":")
             card = card.removePrefix("Card ").strip()
             val (winners,stakes) = numberSource.split("|").map { it.split(" ").mapNotNull { if(it.isNotEmpty()) it.strip().toInt() else null }.toSet() }
-            ret[card.toInt()] = Pair(winners, stakes)
-        }
-        return ret
+            card.toInt() to Pair(winners, stakes)
+        }.toMap()
     }
 
     fun part1(input: Map<Int,Pair<Set<Int>, Set<Int>>>): Int {
@@ -20,13 +18,13 @@ fun main() {
     }
 
     fun part2(input: Map<Int,Pair<Set<Int>, Set<Int>>>): Int {
-        val cardCt = mutableMapOf<Int, Int>()
-        input.keys.forEach { cardCt[it] = 1 }
+        val cardCt = input.keys.associateWith { 1 }.toMutableMap()
         input.forEach{ (cardNo, data) ->
-            val common = data.first.intersect(data.second)
-            for(i in cardNo+1 until cardNo+1+common.size)
-                if(cardCt.keys.contains(i))
-                    cardCt[i] = cardCt[i]!! + (1 * cardCt[cardNo]!!)
+            val ct = data.first.intersect(data.second).size+cardNo
+            (cardNo+1 .. ct).forEach {
+                if (cardCt.keys.contains(it))
+                    cardCt[it] = cardCt[it]!! + (1 * cardCt[cardNo]!!)
+            }
         }
         return cardCt.values.sum()
     }
