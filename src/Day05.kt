@@ -88,13 +88,17 @@ fun main() {
     }
 
 
-    fun part2(input: Pair<List<Long>, Almanac>): Long {
+    fun part2(input: Pair<List<Long>, Almanac>, begin: Long): Long {
         val almanacs = input.second
         val ranges = input.first.windowed(2).map { LongRange(it[0], it[0]+it[1]) }.toMutableList()
-        val max = ranges.maxOf { it.last }
-        val p2val: Long = bSearch(0, max, true) { value ->
-            ranges.any { it.contains(almanacs.reverseMapSeed(value)) }
-        } ?: error("No solution found")
+        var p2val = begin
+        var reverse = true
+        while (true) {
+            p2val = bSearch(lower = 0, upper = p2val, reverse = reverse) { value ->
+                ranges.any { it.contains(almanacs.reverseMapSeed(value)) }
+            } ?: break
+            reverse = !reverse
+        }
 
         return p2val
     }
@@ -108,6 +112,6 @@ fun main() {
 
         val p1res = part1(input)
         println(p1res)
-        println(part2(input))
+        println(part2(input, p1res))
     }
 }
