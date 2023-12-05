@@ -3,12 +3,13 @@ import kotlin.math.pow
 fun main() {
 
     fun parseInput(input: List<String>): Map<Int,Int>{
-        return input.map {line ->
-            var (card, numberSource) = line.split(":").also { it.first().removePrefix("Card ").strip()}
-            card = card.removePrefix("Card ").strip()
-            val (winners,stakes) = numberSource.split("|").map { it.split(" ").mapNotNull { if(it.isNotEmpty()) it.strip().toInt() else null }.toSet() }
+        return input.associate { line ->
+            var (card, numberSource) = line.split(":").also { it.first().removePrefix("Card ").trim() }
+            card = card.removePrefix("Card ").trim()
+            val (winners, stakes) = numberSource.split("|")
+                .map { it2 -> it2.split(" ").mapNotNull { if (it.isNotEmpty()) it.trim().toInt() else null }.toSet() }
             card.toInt() to winners.intersect(stakes).size
-        }.toMap()
+        }
     }
 
     fun part1(input: Map<Int,Int>): Int {

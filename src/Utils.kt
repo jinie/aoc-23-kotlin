@@ -12,7 +12,8 @@ fun readInputString(name: String) = File("resources", "$name.txt").readText()
 /**
  * Converts string to md5 hash.
  */
-fun String.md5(): String = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteArray())).toString(16).padStart(32, '0')
+fun String.md5(): String =
+    BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteArray())).toString(16).padStart(32, '0')
 
 
 /**
@@ -76,8 +77,6 @@ fun IntRange.overlaps(b: IntRange): Boolean {
     return this.contains(b.first) || this.contains(b.last) || b.contains(this.first)
 }
 
-
-
 infix fun IntRange.intersects(other: IntRange): Boolean =
     first <= other.last && last >= other.first
 
@@ -86,3 +85,18 @@ infix fun IntRange.intersect(other: IntRange): IntRange =
 
 fun IntRange.size(): Int =
     last - first + 1
+
+fun bSearch(lower: Long, upper: Long, reverse: Boolean = false, eval: (Long) -> Boolean): Long? {
+    var begin = lower
+    var end = upper
+    var res: Long? = null
+    while (begin <= end) {
+        val mid = (begin + end) / 2L
+        if (eval(mid)) {
+            res = mid
+            if (reverse) end = mid - 1 else begin = mid + 1
+        } else
+            if (reverse) begin = mid + 1 else end = mid - 1
+    }
+    return res
+}
