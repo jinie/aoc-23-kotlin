@@ -71,8 +71,7 @@ fun main() {
                 ret.sourceRanges[curMap] = mutableListOf()
             } else if (lineRe.matches(line)) {
                 lineRe.findAll(line).forEach {
-                    val ranges =
-                        it.value.split(" ").map { it.trim() }.filterNot { it.isEmpty() }.map { it.toLong() }
+                    val ranges = it.value.split(" ").map { it.trim() }.filterNot { it.isEmpty() }.map { it.toLong() }
                     val value = SourceRange(ranges[1], ranges[0] , ranges[2])
                     ret.sourceRanges[curMap]?.add(value)
                 }
@@ -95,7 +94,7 @@ fun main() {
         var begin: Long = 0
         var end:Long = ranges.map { it.last }.maxOrNull() ?: error("No max found")
         var p2val = 0L
-        
+
         while(true){
             var res:Long? = null
             while(begin <= end){
