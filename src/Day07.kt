@@ -1,9 +1,6 @@
 fun main() {
 
     fun rank(hand:String): Long{
-        if(hand.compareTo(hand.replace("23456789TQKA", "")) != 0) {
-            return 0
-        }
         val uniqueCards = hand.replace("23456789TQKA", "")
             .toSet()
             .joinToString("")
