@@ -1,7 +1,6 @@
 fun main() {
-
-    fun part1(directions: String, input: Map<String, Pair<String, String>>): Long {
-        var curPos: String = input.keys.first()
+    fun solve(startPos:String, directions:String, input:Map<String, Pair<String, String>>): Long {
+        var curPos = startPos
         var steps = 0L
         while (true) {
             for (ch in directions) {
@@ -17,44 +16,19 @@ fun main() {
                 }
                 curPos = nPos
 
-                if (curPos == "ZZZ")
+                if (curPos.endsWith("Z"))
                     return steps
-
             }
         }
     }
 
+    fun part1(directions: String, input: Map<String, Pair<String, String>>): Long {
+        return solve(input.keys.first(), directions, input)
+    }
+
     fun part2(directions: String, input: Map<String, Pair<String, String>>): Long {
         val startPositions = input.keys.filter { it.endsWith("A") }.toMutableList()
-        val stepList = mutableListOf<Long>()
-
-        for(idx in 0 until startPositions.size){
-            var steps = 0L
-            var curPos = startPositions[idx]
-            var keepRunning = true
-            while (keepRunning) {
-                for (ch in directions) {
-                    val nPos = when (ch) {
-                        'L' -> input[curPos]!!.first
-                        'R' -> input[curPos]!!.second
-                        else -> error("Should never happen")
-                    }
-
-                    if (nPos == curPos) {
-                        error("Infinite loop")
-                    }
-                    curPos = nPos
-                    steps++
-
-                    if(curPos.endsWith("Z")) {
-                        stepList.add(steps)
-                        keepRunning = false
-                        break
-                    }
-                }
-            }
-        }
-        return findLCMOfListOfNumbers(stepList)
+        return findLCMOfListOfNumbers(startPositions.map { solve(it, directions, input) }.toList())
     }
 
     fun parseInput(input: List<String>): Pair<String, Map<String, Pair<String, String>>>{
