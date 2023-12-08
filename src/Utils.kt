@@ -100,3 +100,51 @@ fun bSearch(lower: Long, upper: Long, reverse: Boolean = false, eval: (Long) -> 
     }
     return res
 }
+
+fun findLCM(a: Long, b: Long): Long {
+    val larger:Long = if (a > b) a else b
+    val maxLcm:Long = a * b
+    var lcm:Long = larger
+    while (lcm <= maxLcm) {
+        if (lcm % a == 0L && lcm % b == 0L) {
+            return lcm
+        }
+        lcm += larger
+    }
+    return maxLcm
+}
+
+fun findLCMOfListOfNumbers(numbers: List<Long>): Long {
+    var result = numbers[0]
+    for (i in 1 until numbers.size) {
+        result = findLCM(result, numbers[i])
+    }
+    return result
+}
+
+fun calculateGCD(a: Int, b: Int): Int {
+    var num1 = a
+    var num2 = b
+    while (num2 != 0) {
+        val temp = num2
+        num2 = num1 % num2
+        num1 = temp
+    }
+    return num1
+}
+
+fun calculateGCDForListOfNumbers(numbers: List<Int>): Int {
+    require(numbers.isNotEmpty()) { "List must not be empty" }
+    var result = numbers[0]
+    for (i in 1 until numbers.size) {
+        var num1 = result
+        var num2 = numbers[i]
+        while (num2 != 0) {
+            val temp = num2
+            num2 = num1 % num2
+            num1 = temp
+        }
+        result = num1
+    }
+    return result
+}
