@@ -31,7 +31,8 @@ fun main() {
         for(idx in 0 until startPositions.size){
             var steps = 0L
             var curPos = startPositions[idx]
-            while (true) {
+            var keepRunning = true
+            while (keepRunning) {
                 for (ch in directions) {
                     val nPos = when (ch) {
                         'L' -> input[curPos]!!.first
@@ -47,12 +48,9 @@ fun main() {
 
                     if(curPos.endsWith("Z")) {
                         stepList.add(steps)
+                        keepRunning = false
                         break
                     }
-                }
-                if(curPos.endsWith("Z")) {
-                    stepList.add(steps)
-                    break
                 }
             }
         }
