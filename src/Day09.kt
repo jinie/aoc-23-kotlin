@@ -1,27 +1,13 @@
 fun main() {
 
-    data class History(val readings: List<Int>) {
-        fun predict(values: List<Int>) = generateSequence(values) {
+    fun List<Int>.predict() = generateSequence(this) {
             it.windowed(2) { (left, right) -> right - left } }
             .takeWhile { numbers -> numbers.any { it != 0 } }
             .sumOf { it.last() }
 
-        val next: Int by lazy { predict(readings) }
-        val previous: Int by lazy { predict(readings.reversed()) }
-    }
-
-    fun parseInput(input: List<String>): List<History> = input.map {
-        it.split(' ').map(String::toInt)
-        }.toList()
-        .map(::History)
-
-    fun part1(input: List<History>): Int {
-        return input.sumOf(History::next)
-    }
-
-    fun part2(input: List<History>): Int {
-        return input.sumOf(History::previous)
-    }
+    fun part1(input: List<List<Int>>): Int = input.sumOf{ it.predict()}
+    fun part2(input: List<List<Int>>): Int = input.sumOf{ it.reversed().predict()}
+    fun parseInput(input: List<String>): List<List<Int>> = input.map { it.split(' ').map(String::toInt) }
 
     // test if implementation meets criteria from the description, like:
     val testInput = parseInput(readInput("Day09_test"))
