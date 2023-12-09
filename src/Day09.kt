@@ -7,13 +7,13 @@ fun main() {
 
     fun part1(input: List<List<Int>>): Int = input.sumOf{ it.predict()}
     fun part2(input: List<List<Int>>): Int = input.sumOf{ it.reversed().predict()}
-    fun parseInput(input: List<String>): List<List<Int>> = input.map { it.split(' ').map(String::toInt) }
+    fun List<String>.parseInput(): List<List<Int>> = this.map { it.split(' ').map(String::toInt) }
 
     // test if implementation meets criteria from the description, like:
-    val testInput = parseInput(readInput("Day09_test"))
+    val testInput = readInput("Day09_test").parseInput()
     check(part1(testInput) == 114)
     measureTimeMillisPrint {
-        val input = parseInput(readInput("Day09"))
+        val input = readInput("Day09").parseInput()
 
         println(part1(input))
         println(part2(input))
