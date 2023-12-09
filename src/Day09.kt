@@ -7,16 +7,13 @@ fun main() {
             .sumOf { it.last() }
 
         val next: Int by lazy { predict(readings) }
-
         val previous: Int by lazy { predict(readings.reversed()) }
     }
-
 
     fun parseInput(input: List<String>): List<History> = input.map {
         it.split(' ').map(String::toInt)
         }.toList()
         .map(::History)
-
 
     fun part1(input: List<History>): Int {
         return input.sumOf(History::next)
