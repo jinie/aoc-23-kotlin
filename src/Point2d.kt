@@ -56,6 +56,9 @@ data class Point2d(var x: Int, var y: Int) {
     fun distanceTo(other: Point2d): Int =
         (x - other.x).absoluteValue + (y - other.y).absoluteValue
 
+    fun add(other: Pair<Int, Int>): Point2d =
+        Point2d(this.x + other.first, this.y + other.second)
+
     fun compareTo(that: Point2d): Int {
         return when {
             y < that.y -> -1
