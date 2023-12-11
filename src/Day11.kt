@@ -11,22 +11,19 @@ fun main() {
         }
     }
 
-    fun List<String>.rows() = this.runningFold(0){ prev, row ->
+    fun List<String>.rowCols() = Pair(this.runningFold(0){ prev, row ->
         if(row.all { it ==  '.'}) prev +1
         else prev
-    }.drop(1)
-
-    fun List<String>.cols() = this.map { it.toList() }
+    }, this.map { it.toList() }
         .transpose()
         .runningFold(0) { prev, row ->
             if(row.all { it == '.'}) prev + 1
             else prev
-    }.drop(1)
+        })
 
     fun part1(input: List<String>, multiplier: Long= 1L): Long {
         val galaxies = input.galaxies()
-        val rows = input.rows()
-        val cols = input.cols()
+        val (rows, cols) = input.rowCols()
 
         return galaxies.combinations(2).map { (g1, g2) ->
             val distance: Long = g1.manhattanDistance(g2).toLong()
