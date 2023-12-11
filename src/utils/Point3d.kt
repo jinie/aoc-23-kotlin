@@ -1,3 +1,5 @@
+package utils
+
 data class Point3D(val x: Int = 0, val y: Int = 0, val z: Int = 0) {
     fun neighbors(): Set<Point3D> =
         setOf(

@@ -1,3 +1,5 @@
+package utils
+
 import java.io.File
 import java.math.BigInteger
 import java.security.MessageDigest
@@ -42,14 +44,6 @@ inline fun <T> measureTimeMillisPrint(
     }
 }
 
-/**
- * Transposes a list, converting rows to columns ( and vice versa )
- */
-fun transpose(matrix: List<List<Int>>): List<List<Int>> = (0 until matrix[0].size).map { column ->
-    (0 until matrix.size).map { row ->
-        matrix[row][column]
-    }
-}
 
 /**
  * Finds up/down/left/right neighbours in a grid
@@ -148,3 +142,37 @@ fun calculateGCDForListOfNumbers(numbers: List<Int>): Int {
     }
     return result
 }
+
+fun <E> List<List<E>>.transpose(): List<List<E>> =
+    List(this[0].size) { i ->
+        List(this.size) { j ->
+            this[j][i]
+        }
+    }
+
+fun <E> combinations(list: List<E>, length: Int? = null): Sequence<List<E>> {
+    return sequence {
+        val n = list.size
+        val r = length ?: list.size
+        val counters = Array(r) { it }
+        val maxes = Array(r) { it + n - r }
+
+        yield(counters.map { list[it] })
+        while (true) {
+            val lastNotAtMax = counters.indices.findLast { counter ->
+                counters[counter] != maxes[counter]
+            } ?: return@sequence // All was at max
+
+            counters[lastNotAtMax]++
+
+            // Increase the others behind (that were one max)
+            for (toUpdate in lastNotAtMax + 1 until r) {
+                counters[toUpdate] = counters[toUpdate - 1] + 1
+            }
+            yield(counters.map { list[it] })
+        }
+    }
+}
+
+@JvmName("combinationsExt")
+fun <E> List<E>.combinations(length: Int? = null) = combinations(this, length)
