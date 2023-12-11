@@ -1,3 +1,6 @@
+import utils.measureTimeMillisPrint
+import utils.readInput
+
 fun main() {
 
     fun parseInput(input: List<String>): List<Pair<Int, List<Map<String, Int>>>> {

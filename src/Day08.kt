@@ -1,3 +1,7 @@
+import utils.findLCMOfListOfNumbers
+import utils.measureTimeMillisPrint
+import utils.readInput
+
 fun main() {
     fun solve(startPos:String, directions:String, input:Map<String, Pair<String, String>>): Long {
         var curPos = startPos

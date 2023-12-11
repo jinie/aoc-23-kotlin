@@ -1,3 +1,6 @@
+import utils.measureTimeMillisPrint
+import utils.readInput
+
 fun main() {
     fun Pair<Int, Int>.add(other: Pair<Int, Int>): Pair<Int, Int> =
         Pair(this.first + other.first, this.second + other.second)
