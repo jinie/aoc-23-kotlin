@@ -1,4 +1,3 @@
-import utils.findLCMOfListOfNumbers
 import utils.measureTimeMillisPrint
 import utils.readInput
 
@@ -32,7 +31,7 @@ fun main() {
 
     fun part2(directions: String, input: Map<String, Pair<String, String>>): Long {
         val startPositions = input.keys.filter { it.endsWith("A") }.toMutableList()
-        return findLCMOfListOfNumbers(startPositions.map { solve(it, directions, input) }.toList())
+        return startPositions.map { solve(it, directions, input) }.findLCM()
     }
 
     fun parseInput(input: List<String>): Pair<String, Map<String, Pair<String, String>>>{
