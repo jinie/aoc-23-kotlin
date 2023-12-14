@@ -3,15 +3,6 @@ import utils.readInput
 
 fun main() {
 
-    fun String.delta(other: String): Int {
-        return this.mapIndexed { index, c ->
-            when {
-                other[index] != c -> 1
-                else -> 0
-            }
-        }.sum()
-    }
-
     fun List<String>.isReflection(notAllowed: Int = 0): Int {
         for(i in 1 .. this.lastIndex){
             var match = true
