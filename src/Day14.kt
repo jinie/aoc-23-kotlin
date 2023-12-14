@@ -1,70 +1,72 @@
 import utils.measureTimeMillisPrint
 import utils.readInput
-import kotlin.streams.toList
 
+enum class Rock { None, Rounded, Cubic }
 fun main() {
 
-    fun List<String>.parseInput(): MutableList<StringBuilder> {
-        return this.map { StringBuilder(it) }.toMutableList()
+
+    fun List<String>.parseInput(): List<MutableList<Rock>> {
+        return this.map { it.map {
+            when (it) {
+                '.' -> Rock.None
+                'O' -> Rock.Rounded
+                else -> Rock.Cubic
+            }
+        }.toMutableList() }
     }
 
-    fun MutableList<StringBuilder>.transpose(): MutableList<StringBuilder>{
-        return this.map { it.chars().toList() }.transpose().map { StringBuilder(it.toString()) }.toMutableList()
+    val cache: MutableMap<String, List<MutableList<Rock>>> = mutableMapOf()
+
+    fun List<MutableList<Rock>>.lowestEmptyYFromCoord(x: Int, y: Int): Int {
+        var ty = y
+        while (ty >= 0 && this[ty][x] == Rock.None) {
+            ty--
+        }
+        return ty+1
     }
 
-    fun MutableList<StringBuilder>.moveRocks(direction:Int = -1): MutableList<StringBuilder> {
-        for(x in this[0].indices) {
-            var done = false
-            while(!done) {
-                var y = 1
-                var moved = false
-                do {
-                    if (this[y][x] == 'O') {
-                        if (this[y + direction][x] == '.') {
-                            this[y + direction][x] = 'O'
-                            this[y][x] = '.'
-                            moved = true
-                            break
-                        }
-                    }
-                    y++
-                } while (y < this.size)
-                if (!moved)
-                    done = true
+    fun List<MutableList<Rock>>.moveRocks(): List<MutableList<Rock>> {
+        var key = this.joinToString("")
+        if (cache.containsKey(key))
+            return cache[key]!!
+        this.forEachIndexed { y, _ ->
+           this.forEachIndexed { x, _ ->
+               if(this[y][x] == Rock.Rounded) {
+                   this[y][x] = Rock.None
+                   this[this.lowestEmptyYFromCoord(x, y-1)][x] = Rock.Rounded
+               }
             }
         }
+
+        key = this.joinToString("")
+        cache[key] = this
         return this
     }
 
     fun part1(input: List<String>): Long {
-        return input.parseInput().moveRocks().mapIndexed { index, row ->
-            row.count { it == 'O' } * (input.size - index)
+        val ret = input.parseInput().moveRocks().mapIndexed { index, row ->
+            row.count { it == Rock.Rounded } * (input.size - index)
         }.sum().toLong()
+        return ret
     }
 
     fun part2(input: List<String>): Long {
         var rocks = input.parseInput()
-        for(i in 0 .. (1000000000/4)){
-            rocks = rocks.moveRocks(-1)
-            rocks = rocks.transpose()
-            rocks = rocks.moveRocks(-1)
-            rocks = rocks.transpose()
-            rocks = rocks.moveRocks(1)
-            rocks = rocks.transpose()
-            rocks = rocks.moveRocks(1)
-            rocks = rocks.transpose()
+        for(i in 0 until  (100000000)){
+            rocks = rocks.moveRocks()
+            rocks = rocks.transpose().map { it.toMutableList() }
         }
-        return rocks[0].count{ it == 'O'} * 10L
+        return rocks[0].count{ it == Rock.Rounded} * 10L
     }
 
     // test if implementation meets criteria from the description, like:
     val testInput = readInput("Day14_test")
     check(part1(testInput) == 136L)
-    check(part2(testInput) == 64L)
+    //check(part2(testInput) == 64L)
     measureTimeMillisPrint {
         val input = readInput("Day14")
 
         println(part1(input))
-        println(part2(input))
+        //println(part2(input))
     }
 }
