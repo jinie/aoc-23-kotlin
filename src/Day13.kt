@@ -12,7 +12,7 @@ fun main() {
         }.sum()
     }
 
-    fun List<String>.isReflection(notAllowed: Int = -1): Int {
+    fun List<String>.isReflection(notAllowed: Int = 0): Int {
         for(i in 1 .. this.lastIndex){
             var match = true
             for(j in 1 .. i){
@@ -48,23 +48,23 @@ fun main() {
         return groups.sumOf { group ->
             var sum = 0
             val tGrp = group.toMutableList()
-            var done = false
+            var res = 0
             for (i in group.indices) {
                 val sb = StringBuilder(group[i])
                 for (j in sb.indices) {
                     sb[j] = if (sb[j] == '.') '#' else '.'
                     tGrp[i] = sb.toString()
-                    var ret = tGrp.transpose().isReflection(group.transpose().isReflection())
-                    if (ret == 0)
-                        ret = tGrp.isReflection(group.isReflection()) * 100
-                    if (ret != 0) {
-                        sum += ret
-                        done = true
+                    res = tGrp.transpose().isReflection(group.transpose().isReflection())
+                    if (res == 0)
+                        res = tGrp.isReflection(group.isReflection()) * 100
+                    if (res > 0) {
+                        sum += res
                         break
                     }
                     sb[j] = if (sb[j] == '.') '#' else '.'
+                    tGrp[i] = sb.toString()
                 }
-                if(done)
+                if(res > 0)
                     break
             }
             sum
