@@ -4,18 +4,16 @@ import utils.readInput
 enum class Rock { None, Rounded, Cubic }
 fun main() {
 
-
     fun List<String>.parseInput(): List<MutableList<Rock>> {
         return this.map { it.map {
             when (it) {
-                '.' -> Rock.None
-                'O' -> Rock.Rounded
-                else -> Rock.Cubic
-            }
-        }.toMutableList() }
+                    '.' -> Rock.None
+                    'O' -> Rock.Rounded
+                    else -> Rock.Cubic
+                }
+            }.toMutableList()
+        }
     }
-
-    val cache: MutableMap<String, Long> = mutableMapOf()
 
     fun List<MutableList<Rock>>.rotate90degrees(): List<MutableList<Rock>>{
         val ret = mutableListOf<MutableList<Rock>>()
@@ -46,7 +44,6 @@ fun main() {
                }
             }
         }
-
         return this
     }
 
@@ -61,14 +58,14 @@ fun main() {
         var rocks = input.parseInput()
         var i =0L
         var skip = true
+        val cache: MutableMap<String, Long> = mutableMapOf()
         while(i < 1_000_000_000) {
             for(j in 0 until 4) {
                 rocks = rocks.moveRocks()
                 rocks = rocks.rotate90degrees()
             }
             if(skip) {
-                val key = rocks.joinToString("")
-                when(key){
+                when(val key = rocks.joinToString("")){
                     in cache -> {
                         val cycle = i - cache.getValue(key)
                         val cyclesLeft = (1_000_000_000 - i) / cycle
