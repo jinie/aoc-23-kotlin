@@ -1,5 +1,4 @@
 import utils.measureTimeMillisPrint
-import utils.readInput
 import utils.readInputString
 
 fun main() {
