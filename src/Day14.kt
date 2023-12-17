@@ -60,9 +60,8 @@ fun main() {
         var skip = true
         val cache: MutableMap<String, Long> = mutableMapOf()
         while(i < 1_000_000_000) {
-            for(j in 0 until 4) {
-                rocks = rocks.moveRocks()
-                rocks = rocks.rotate90degrees()
+            0.until(4).forEach { _ ->
+                rocks = rocks.moveRocks().rotate90degrees()
             }
             if(skip) {
                 when(val key = rocks.joinToString("")){

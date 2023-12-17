@@ -11,12 +11,12 @@ fun main() {
         }
     }
 
-    fun List<String>.rowCols() = Pair(this.runningFold(0){ prev, row ->
+    fun List<String>.rowCols() = Pair(this.runningFold(0){ prev:Long, row ->
         if(row.all { it ==  '.'}) prev +1
         else prev
     }, this.map { it.toList() }
         .transpose()
-        .runningFold(0) { prev, row ->
+        .runningFold(0) { prev:Long, row ->
             if(row.all { it == '.'}) prev + 1
             else prev
         })
@@ -26,8 +26,8 @@ fun main() {
         val (rows, cols) = input.rowCols()
 
         return galaxies.combinations(2).map { (g1, g2) ->
-            val distance: Long = g1.manhattanDistance(g2).toLong()
-            val expansion: Long = (abs(rows[g1.y] - rows[g2.y]) + abs(cols[g1.x] - cols[g2.x])).toLong()*multiplier
+            val distance: Long = g1.manhattanDistance(g2)
+            val expansion: Long = (abs(rows[g1.y.toInt()] - rows[g2.y.toInt()]) + abs(cols[g1.x.toInt()] - cols[g2.x.toInt()]))*multiplier
             distance + expansion
         }.sumOf{it}
     }

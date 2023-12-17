@@ -8,7 +8,9 @@ import kotlin.math.sign
  * Grid helper class, from
  * https://todd.ginsberg.com/post/advent-of-code/2021/
  */
-data class Point2d(var x: Int, var y: Int) {
+data class Point2d(var x: Long, var y: Long) {
+
+    constructor(x: Int, y: Int) : this(x.toLong(), y.toLong())
 
     infix fun sharesAxisWith(that: Point2d): Boolean =
         x == that.x || y == that.y
@@ -20,11 +22,11 @@ data class Point2d(var x: Int, var y: Int) {
         return (1..steps).scan(this) { last, _ -> Point2d(last.x + xDelta, last.y + yDelta) }
     }
 
-    fun chebyshevDistance(that: Point2d): Int {
+    fun chebyshevDistance(that: Point2d): Long {
         return maxOf((x - that.x).absoluteValue, (y - that.y).absoluteValue)
     }
 
-    fun manhattanDistance(that: Point2d): Int {
+    fun manhattanDistance(that: Point2d): Long {
         return (abs(this.x - that.x) + abs(this.y - that.y))
     }
 
@@ -55,10 +57,10 @@ data class Point2d(var x: Int, var y: Int) {
     operator fun minus(other: Point2d): Point2d =
         Point2d(this.x - other.x, this.y - other.y)
 
-    fun distanceTo(other: Point2d): Int =
+    fun distanceTo(other: Point2d): Long =
         (x - other.x).absoluteValue + (y - other.y).absoluteValue
 
-    fun add(other: Pair<Int, Int>): Point2d =
+    fun add(other: Pair<Long, Long>): Point2d =
         Point2d(this.x + other.first, this.y + other.second)
 
     fun compareTo(that: Point2d): Int {
@@ -73,6 +75,6 @@ data class Point2d(var x: Int, var y: Int) {
 
     companion object {
         fun of(input: String): Point2d =
-            input.split(",").let { (x, y) -> Point2d(x.toInt(), y.toInt()) }
+            input.split(",").let { (x, y) -> Point2d(x.toLong(), y.toLong()) }
     }
 }
