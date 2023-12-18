@@ -26,7 +26,7 @@ fun main() {
             var currentString = ""
             line.forEachIndexed { x, char ->
                 if (char.isDigit()) {
-                    currentNumber.add(Point2d(x.toLong(), y.toLong()))
+                    currentNumber.add(Point2d(x, y))
                     currentString += char
                 } else {
                     if (currentNumber.isNotEmpty()) {

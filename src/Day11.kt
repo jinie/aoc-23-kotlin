@@ -26,8 +26,8 @@ fun main() {
         val (rows, cols) = input.rowCols()
 
         return galaxies.combinations(2).map { (g1, g2) ->
-            val distance: Long = g1.manhattanDistance(g2)
-            val expansion: Long = (abs(rows[g1.y.toInt()] - rows[g2.y.toInt()]) + abs(cols[g1.x.toInt()] - cols[g2.x.toInt()]))*multiplier
+            val distance = g1.manhattanDistance(g2)
+            val expansion = (abs(rows[g1.y.toInt()] - rows[g2.y.toInt()]) + abs(cols[g1.x.toInt()] - cols[g2.x.toInt()]))*multiplier
             distance + expansion
         }.sumOf{it}
     }

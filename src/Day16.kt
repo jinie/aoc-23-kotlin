@@ -67,7 +67,7 @@ private fun parseInput(input: String): Maze {
             line.mapIndexed { x, c ->
                 parsePoint(c)?.let {
                     Point2d(
-                        x.toLong(), y.toLong()
+                        x, y
                     ) to it
                 }
             }
