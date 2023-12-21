@@ -36,7 +36,11 @@ class Day18(input: String) {
             .sum().absoluteValue + sumOf { it.second } / 2 + 1
 
     fun part1() = parse.map { (a, b, _) -> a to b }.solve()
-    fun part2() = parse.map { (_, _, c) -> listOf(Dir.East, Dir.South, Dir.West, Dir.North)[c % 16] to c / 16 }.solve()
+
+    private val directionMap = mapOf(0 to Dir.East, 1 to Dir.South, 2 to Dir.West, 3 to Dir.North)
+    fun part2() = parse.map { (_, _, c) ->
+        directionMap.getValue(c % 16) to c / 16
+    }.solve()
 }
 
 fun main() {
